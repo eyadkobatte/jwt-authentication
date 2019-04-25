@@ -27,13 +27,14 @@ const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => console.log(`listening on port ${PORT}`));
 
-app.get('/auth/google', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
+app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 app.get(
   '/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/login', successRedirect: '/' }),
-  function(req, res) {
-    res.redirect('https://eyad-jwt-authentication.herokuapp.com/');
+  (req, res) => {
+    console.log('redirecting !!!!');
+    res.redirect('/');
   }
 );
 
