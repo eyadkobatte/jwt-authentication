@@ -31,11 +31,10 @@ app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'em
 
 app.get(
   '/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/login', successRedirect: '/' }),
-  (req, res) => {
-    console.log('redirecting !!!!');
-    res.redirect('/');
-  }
+  passport.authenticate('google', {
+    successRedirect: '/profile',
+    failureRedirect: '/'
+  })
 );
 
 app.get('/', (req, res) => {
