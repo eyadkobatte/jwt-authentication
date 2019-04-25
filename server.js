@@ -34,7 +34,11 @@ app.get(
   passport.authenticate('google', {
     successRedirect: '/',
     failureRedirect: '/login'
-  })
+  }),
+  (req, res) => {
+    console.log('req.user', req.user);
+    res.redirect('/');
+  }
 );
 
 app.get('/callback', (req, res) => {
