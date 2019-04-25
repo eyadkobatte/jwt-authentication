@@ -4,15 +4,15 @@ const express = require('express');
 
 const app = express();
 
-const CLIENT_ID = '358306011016-ed2nbckg5f3d0h4run8lhqo7cdkfeoag.apps.googleusercontent.com';
-const CLIENT_SECRET = '-I1cn0Vlq0SwctD9IdKo76mR';
+const CLIENT_ID = process.env.clientID;
+const CLIENT_SECRET = process.env.clientSecret;
 
 passport.use(
   new GoogleStrategy(
     {
       clientID: CLIENT_ID,
       clientSecret: CLIENT_SECRET,
-      callbackURL: 'http://localhost:3000/auth/google/callback'
+      callbackURL: 'https://eyad-jwt-authentication.herokuapp.com/auth/google/callback'
     },
     function(accessToken, refreshToken, profile) {
       console.log('accessToken: ', accessToken);
@@ -23,7 +23,9 @@ passport.use(
   )
 );
 
-app.listen(3000, () => console.log('listening on port 3000'));
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => console.log(`listening on port ${PORT}`));
 
 app.get('/auth/google', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
 
@@ -31,11 +33,16 @@ app.get(
   '/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/login', successRedirect: '/' }),
   function(req, res) {
-    res.redirect('http://localhost:3000');
+    res.redirect('https://eyad-jwt-authentication.herokuapp.com/');
   }
 );
 
 app.get('/', (req, res) => {
   console.log('yo /');
   res.send('hi');
+});
+
+app.get('/login', (req, res) => {
+  console.log('ack to login');
+  res.send('login biatch');
 });
