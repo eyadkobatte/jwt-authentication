@@ -37,6 +37,11 @@ app.get(
   })
 );
 
+app.get('/callback', (req, res) => {
+  console.log('callbkacll');
+  res.redirect('/');
+});
+
 app.get('/', (req, res) => {
   console.log('yo /');
   res.send('hi');
